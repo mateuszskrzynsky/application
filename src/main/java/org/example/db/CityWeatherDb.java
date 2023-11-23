@@ -7,8 +7,25 @@ import java.util.Optional;
 public class CityWeatherDb {
     private static final Map<Long, CityDataEntity> dataBase = new HashMap<>();
 
-    public void add(CityDataEntity entity){
-        dataBase.put(entity.getId(), entity);
+    private static Long CITY_DATA_ENTITY_ID=1L;
+    private static Long WEATHER_DATA_ENTITY_ID=1L;
+
+
+    public CityDataEntity add(CityDataEntity entity){
+        final Long newIdCityDataEntity =CITY_DATA_ENTITY_ID;
+        final Long newIdWeatherDataEntity = WEATHER_DATA_ENTITY_ID;
+
+        entity.setId(newIdCityDataEntity);
+        entity.getWeatherDataEntity().setId(newIdWeatherDataEntity);
+
+        dataBase.put(entity.getId(),entity);
+
+        CITY_DATA_ENTITY_ID= CITY_DATA_ENTITY_ID+1;
+        WEATHER_DATA_ENTITY_ID= WEATHER_DATA_ENTITY_ID+1;
+
+        return entity;
+
+
     }
 
     public Optional<CityDataEntity> get(Long id){

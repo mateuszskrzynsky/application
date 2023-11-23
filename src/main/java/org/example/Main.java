@@ -1,15 +1,31 @@
 package org.example;
 
 import org.example.api.open_weather.CityOwResponse;
+import org.example.db.CityDataEntity;
+import org.example.db.CityDataEntityMapper;
+import org.example.db.CityWeatherDb;
 import org.example.handlers.FindCityByNameHandler;
 import org.example.services.WeatherService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
+
+        final CityWeatherDb dataBase = new CityWeatherDb();
+
+        final List<String> mostPopularCities = List.of("Warsaw", "Szczecin");
+        mostPopularCities.stream()
+                .forEach(cityName -> {
+                    //get city
+                    final CityOwResponse response = new WeatherService().getWeatherFromOpenWeather(cityName);
+                    final CityDataEntity entity = CityDataEntityMapper.from(response);
+                    //save city
+                    dataBase.add(entity);
+                });
 
         var isRunning = true;
         var isFirstRun = true;
@@ -21,7 +37,7 @@ public class Main {
 
             switch (userInput) {
                 case "X" -> isRunning = false;
-                
+
                 case "C"-> new FindCityByNameHandler().handle();
 
                 default -> System.out.println("ERROR!!! INVALID INPUT");

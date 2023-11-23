@@ -29,4 +29,9 @@ public class CityDataEntity {
         this.weatherDataEntity = weatherDataEntity;
     }
 
+    public CityDataEntity(Long id, String name, WeatherDataEntity weatherDataEntity) {
+        this.id = id;
+        this.name = name;
+        this.weatherDataEntity = weatherDataEntity;
+    }
 }
