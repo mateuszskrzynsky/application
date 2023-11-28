@@ -5,6 +5,12 @@ public class CityDataEntity {
     private String name;
     private WeatherDataEntity weatherDataEntity;
 
+    public CityDataEntity(Long id, String name, WeatherDataEntity weatherDataEntity) {
+        this.id = id;
+        this.name = name;
+        this.weatherDataEntity = weatherDataEntity;
+    }
+
     public Long getId() {
         return id;
     }
@@ -26,12 +32,6 @@ public class CityDataEntity {
     }
 
     public void setWeatherDataEntity(WeatherDataEntity weatherDataEntity) {
-        this.weatherDataEntity = weatherDataEntity;
-    }
-
-    public CityDataEntity(Long id, String name, WeatherDataEntity weatherDataEntity) {
-        this.id = id;
-        this.name = name;
         this.weatherDataEntity = weatherDataEntity;
     }
 }

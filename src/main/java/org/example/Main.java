@@ -12,20 +12,23 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static final CityWeatherDb DATA_BASE = new CityWeatherDb();
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
-        final CityWeatherDb dataBase = new CityWeatherDb();
-
         final List<String> mostPopularCities = List.of("Warsaw", "Szczecin");
+
         mostPopularCities.stream()
                 .forEach(cityName -> {
-                    //get city
+                    // get city
                     final CityOwResponse response = new WeatherService().getWeatherFromOpenWeather(cityName);
                     final CityDataEntity entity = CityDataEntityMapper.from(response);
-                    //save city
-                    dataBase.add(entity);
+                    // save city
+                    DATA_BASE.add(entity);
                 });
+
+
 
         var isRunning = true;
         var isFirstRun = true;
@@ -37,9 +40,7 @@ public class Main {
 
             switch (userInput) {
                 case "X" -> isRunning = false;
-
-                case "C"-> new FindCityByNameHandler().handle();
-
+                case "C" -> new FindCityByNameHandler().handle();
                 default -> System.out.println("ERROR!!! INVALID INPUT");
             }
         }
@@ -48,12 +49,12 @@ public class Main {
     private static boolean showWelcomeMenu(boolean isFirstRun) {
         if (isFirstRun) {
             System.out.println("""
-            ----------------------
-            WELCOME!
-            type X to quit
-            type C to show what city you want to find
-            ----------------------
-            """);
+				----------------------
+				WELCOME!
+				type X to quit
+				type C to show what city you want to find
+				----------------------
+				""");
             isFirstRun = false;
         }
         return isFirstRun;

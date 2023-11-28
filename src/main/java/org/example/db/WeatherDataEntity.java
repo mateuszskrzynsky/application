@@ -14,6 +14,15 @@ public class WeatherDataEntity {
     private Float windSpeed;
     private Float pressure;
 
+    public WeatherDataEntity(Long id, Long cityId, LocalDateTime date, Float temperature, Float windSpeed, Float pressure) {
+        this.id = id;
+        this.cityId = cityId;
+        this.date = date;
+        this.temperature = temperature;
+        this.windSpeed = windSpeed;
+        this.pressure = pressure;
+    }
+
     public Long getId() {
         return id;
     }
@@ -61,13 +70,5 @@ public class WeatherDataEntity {
     public void setPressure(Float pressure) {
         this.pressure = pressure;
     }
-
-    public WeatherDataEntity(Long id, Long cityId, LocalDateTime date, Float temperature, Float windSpeed, Float pressure) {
-        this.id = id;
-        this.cityId = cityId;
-        this.date = date;
-        this.temperature = temperature;
-        this.windSpeed = windSpeed;
-        this.pressure = pressure;
-    }
 }
+
