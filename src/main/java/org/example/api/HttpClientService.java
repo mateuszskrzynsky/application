@@ -12,12 +12,13 @@ import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.function.Function;
 
 public class HttpClientService<T> {
 
     private static HttpClient client = HttpClient.newHttpClient();
 
-    public T getWeather(String url, Class<T> responseClass) {
+    public T getWeather(String url, Class<T> responseClass, Function<JsonElement, LocalDateTime> localDateTimeMapper) {
         var request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -33,8 +34,9 @@ public class HttpClientService<T> {
                     new JsonDeserializer<LocalDateTime>() {
                         @Override
                         public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-                            var dateTimeJson = json.getAsJsonPrimitive().getAsLong();
-                            return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimeJson), ZoneId.systemDefault());
+                            //var dateTimeJson = json.getAsJsonPrimitive().getAsLong();
+                            //return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimeJson), ZoneId.systemDefault());
+                            return localDateTimeMapper.apply(json);
                         }
                     }
             ).create();

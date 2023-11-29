@@ -3,6 +3,12 @@ package org.example.services;
 import org.example.api.CityWeatherDataResponse;
 import org.example.api.HttpClientService;
 import org.example.api.open_weather.CityOwResponse;
+import org.example.api.weather_stack.CityWsResponse;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class WeatherService {
 
@@ -18,7 +24,33 @@ public class WeatherService {
 
 
         var httpClientService = new HttpClientService<CityOwResponse>();
-        final CityOwResponse response = httpClientService.getWeather(openWeatherUrl, CityOwResponse.class);
+        final CityOwResponse response = httpClientService.getWeather(
+                openWeatherUrl,
+                CityOwResponse.class,
+                jsonElement -> {
+                    var dateTimeJson = jsonElement.getAsJsonPrimitive().getAsLong();
+                    return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimeJson), ZoneId.systemDefault());
+                }
+        );
+        return response;
+    }
+
+    public CityWsResponse getWeatherFromWeatherStack(String cityName){
+        String baseUrl="http://api.weatherstack.com/current?";
+        String appIdQuery= "access_key=f1b9fe06f1a16e1647062531746b1c73";
+        String cityNameQuery="query="+cityName;
+
+
+        String weatherStackUrl = baseUrl+appIdQuery+"&"+cityNameQuery;
+        var httpClientService = new HttpClientService<CityWsResponse>();
+        final CityWsResponse response = httpClientService.getWeather(
+                weatherStackUrl,
+                CityWsResponse.class,
+                jsonElement -> {
+                    return  LocalDateTime.parse(jsonElement.getAsJsonPrimitive().getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                }
+        );
+
         return response;
     }
 }

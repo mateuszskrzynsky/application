@@ -5,6 +5,8 @@ public class CityDataEntity {
     private String name;
     private WeatherDataEntity weatherDataEntity;
 
+    public CityDataEntity(){}
+
     public CityDataEntity(Long id, String name, WeatherDataEntity weatherDataEntity) {
         this.id = id;
         this.name = name;
