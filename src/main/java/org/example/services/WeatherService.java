@@ -29,7 +29,7 @@ public class WeatherService {
                 CityOwResponse.class,
                 jsonElement -> {
                     var dateTimeJson = jsonElement.getAsJsonPrimitive().getAsLong();
-                    return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimeJson), ZoneId.systemDefault());
+                    return LocalDateTime.ofInstant(Instant.ofEpochSecond(dateTimeJson), ZoneId.systemDefault());
                 }
         );
         return response;
